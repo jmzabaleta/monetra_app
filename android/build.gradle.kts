@@ -31,7 +31,18 @@ subprojects {
         }
     }
 
-    afterEvaluate {
+    if (!state.executed) {
+        afterEvaluate {
+            plugins.withId("com.android.library") {
+                extensions.configure<LibraryExtension>("android") {
+                    compileSdk = 35
+                    if (namespace == null && project.name == "isar_flutter_libs") {
+                        namespace = "dev.isar.isar_flutter_libs"
+                    }
+                }
+            }
+        }
+    } else {
         plugins.withId("com.android.library") {
             extensions.configure<LibraryExtension>("android") {
                 compileSdk = 35
